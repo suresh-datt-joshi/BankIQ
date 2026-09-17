@@ -9,7 +9,6 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 function AdminDashboard() {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState('');
@@ -195,7 +194,9 @@ function AdminDashboard() {
     try {
       await signOut(auth);
 
-      window.location.href = '/admin';
+      navigate('/admin', {
+        replace: true,
+      });
     } catch (error) {
       console.error('Logout error:', error);
     }
