@@ -1,0 +1,1012 @@
+/* =========================================
+   BankQI — pixel-accurate reference layout
+   Target viewport: 1440×900 / 1920×1080
+========================================= */
+
+.bankqi-app {
+  --bq-navy: #0a3d7a;
+  --bq-navy-hover: #083060;
+  --bq-blue: #2563eb;
+  --bq-text: #1a2b42;
+  --bq-text-muted: #64748b;
+  --bq-border: #c8daf0;
+  --bq-border-light: #e8eef5;
+  --bq-white: #ffffff;
+  --bq-content: 1280px;
+  --bq-gutter: 80px;
+  --bq-search: 820px;
+
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bq-white);
+  color: var(--bq-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.bankqi-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+
+.bankqi-header {
+  flex-shrink: 0;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--bq-gutter);
+  background: var(--bq-white);
+  border-bottom: 1px solid var(--bq-border-light);
+  z-index: 20;
+}
+
+.bankqi-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.bankqi-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bankqi-logo-mark {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.bankqi-logo-footer .bankqi-logo-mark {
+  width: 28px;
+  height: 28px;
+}
+
+.bankqi-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bankqi-brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bq-navy);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.bankqi-logo-footer .bankqi-brand {
+  font-size: 16px;
+}
+
+.bankqi-tagline {
+  font-size: 10.5px;
+  font-weight: 400;
+  color: #94a3b8;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.bankqi-nav {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.bankqi-nav-link {
+  text-decoration: none;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  padding-bottom: 6px;
+  border-bottom: 2.5px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.bankqi-nav-link:hover {
+  color: var(--bq-navy);
+}
+
+.bankqi-nav-link.active {
+  color: var(--bq-navy);
+  border-bottom-color: var(--bq-navy);
+}
+
+.bankqi-signin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  height: 38px;
+  padding: 0 22px;
+  background: var(--bq-navy);
+  color: var(--bq-white);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.bankqi-signin-btn:hover {
+  background: var(--bq-navy-hover);
+}
+
+/* ── Hero panel (gradient + building bg) ── */
+
+.bankqi-hero-panel {
+  position: relative;
+  flex-shrink: 0;
+  background: linear-gradient(
+    180deg,
+    #e6f0fa 0%,
+    #eef5fb 38%,
+    #f4f8fc 72%,
+    #ffffff 100%
+  );
+  overflow: hidden;
+}
+
+.bankqi-hero-building {
+  position: absolute;
+  right: calc(var(--bq-gutter) + 80px);
+  top: 50%;
+  transform: translateY(-58%);
+  width: 340px;
+  height: 270px;
+  background: url('/bank-building.svg') center / contain no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bankqi-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--bq-content);
+  margin: 0 auto;
+  padding: 28px var(--bq-gutter) 0;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 24px;
+  align-items: center;
+  min-height: 248px;
+}
+
+.bankqi-hero-copy {
+  max-width: 520px;
+}
+
+.bankqi-hero-title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--bq-navy);
+  letter-spacing: -0.025em;
+}
+
+.bankqi-highlight {
+  color: var(--bq-blue);
+}
+
+.bankqi-hero-heading {
+  margin: 4px 0 0;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--bq-navy);
+  letter-spacing: -0.025em;
+}
+
+.bankqi-hero-subtitle {
+  margin: 14px 0 0;
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--bq-text-muted);
+  max-width: 430px;
+}
+
+.bankqi-features {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+  margin-top: 18px;
+}
+
+.bankqi-feature {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.bankqi-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e8f1fd;
+  color: var(--bq-blue);
+  flex-shrink: 0;
+}
+
+.bankqi-feature-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── Hero visual (robot + bubble) ── */
+
+.bankqi-hero-visual {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 220px;
+  padding-bottom: 4px;
+}
+
+.bankqi-speech-bubble {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 248px;
+  padding: 10px 14px;
+  background: var(--bq-white);
+  border-radius: 7px 7px 0 7px;
+  box-shadow: 0 4px 14px rgba(10, 61, 122, 0.08);
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--bq-navy);
+  z-index: 2;
+  animation: bankqi-bubble-in 0.7s ease-out both,
+    bankqi-bubble-float 4s ease-in-out 0.7s infinite;
+  transform-origin: bottom right;
+}
+
+.bankqi-speech-text {
+  display: block;
+  min-height: 36px;
+  animation: bankqi-speech-reveal 0.55s ease-out both;
+}
+
+.bankqi-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: var(--bq-white);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.bankqi-mascot {
+  width: 196px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 22px rgba(10, 61, 122, 0.14));
+  margin-top: 52px;
+  z-index: 1;
+  animation: bankqi-mascot-float 4s ease-in-out 0.35s infinite;
+}
+
+@keyframes bankqi-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bankqi-speech-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bankqi-bubble-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.01);
+  }
+}
+
+@keyframes bankqi-mascot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.bankqi-hero-slogan {
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.bankqi-hero-slogan span {
+  display: block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(10, 61, 122, 0.28);
+  white-space: nowrap;
+}
+
+.bankqi-hero-slogan span::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 28px;
+  background: rgba(10, 61, 122, 0.2);
+  margin: 8px auto 0;
+}
+
+/* ── Search bar (centered in hero panel) ── */
+
+.bankqi-search-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: var(--bq-search);
+  margin: 0 auto;
+  padding: 18px var(--bq-gutter) 16px;
+}
+
+.bankqi-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 54px;
+  background: var(--bq-white);
+  border: 1px solid #dce8f5;
+  border-radius: 999px;
+  padding: 0 6px 0 20px;
+  box-shadow: 0 4px 22px rgba(10, 61, 122, 0.09);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.bankqi-search-bar:focus-within {
+  border-color: #93c5fd;
+  box-shadow: 0 4px 24px rgba(37, 99, 235, 0.12);
+}
+
+.bankqi-search-icon {
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.bankqi-search-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.bankqi-search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14.5px;
+  font-weight: 400;
+  color: var(--bq-text);
+  background: transparent;
+  min-width: 0;
+}
+
+.bankqi-search-bar input::placeholder {
+  color: #94a3b8;
+}
+
+.bankqi-send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: var(--bq-navy);
+  color: var(--bq-white);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.bankqi-send-btn svg {
+  width: 17px;
+  height: 17px;
+  margin-left: 1px;
+}
+
+.bankqi-send-btn:hover:not(:disabled) {
+  background: var(--bq-navy-hover);
+}
+
+.bankqi-send-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Suggestion pills ── */
+
+.bankqi-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.bankqi-suggestion-pill {
+  border: 1px solid var(--bq-border);
+  background: var(--bq-white);
+  color: #334155;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.bankqi-suggestion-pill:hover:not(:disabled) {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: var(--bq-navy);
+}
+
+.bankqi-suggestion-pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Common Queries ── */
+
+.bankqi-queries-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: var(--bq-content);
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px var(--bq-gutter) 8px;
+  overflow: hidden;
+}
+
+.bankqi-queries-header {
+  text-align: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.bankqi-queries-header h2 {
+  margin: 0 0 3px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bq-navy);
+  letter-spacing: -0.01em;
+}
+
+.bankqi-queries-header p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--bq-text-muted);
+}
+
+.bankqi-queries-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.bankqi-query-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 22px 12px 18px;
+  background: var(--bq-white);
+  border: 1px solid var(--bq-border-light);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(10, 61, 122, 0.05);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.bankqi-query-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(10, 61, 122, 0.09);
+  border-color: #bfdbfe;
+}
+
+.bankqi-query-card:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.bankqi-query-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}
+
+.bankqi-query-card h3 {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--bq-text);
+  line-height: 1.2;
+}
+
+.bankqi-query-card p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--bq-text-muted);
+  line-height: 1.45;
+}
+
+/* ── Footer ── */
+
+.bankqi-footer {
+  flex-shrink: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--bq-gutter);
+  border-top: 1px solid var(--bq-border-light);
+  background: var(--bq-white);
+}
+
+.bankqi-footer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bankqi-footer-tagline {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--bq-text-muted);
+  padding-left: 2px;
+}
+
+.bankqi-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bankqi-footer-links a {
+  color: #475569;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 400;
+  transition: color 0.15s;
+}
+
+.bankqi-footer-links a:hover {
+  color: var(--bq-navy);
+}
+
+.bankqi-footer-divider {
+  color: #cbd5e1;
+  font-size: 12px;
+  user-select: none;
+}
+
+/* ── Chat mode (preserves functionality, fits viewport) ── */
+
+.bankqi-app-chat .bankqi-main {
+  background: linear-gradient(180deg, #eef5fb 0%, #ffffff 100%);
+}
+
+.bankqi-chat-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: var(--bq-search);
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px var(--bq-gutter) 0;
+}
+
+.bankqi-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.bankqi-chat-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bq-navy);
+}
+
+.bankqi-clear-btn {
+  border: 1px solid #cbd5e1;
+  background: var(--bq-white);
+  color: #475569;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.bankqi-clear-btn:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+.bankqi-clear-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.bankqi-messages {
+  flex: 1;
+  min-height: 0;
+  background: var(--bq-white);
+  border: 1px solid var(--bq-border-light);
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(10, 61, 122, 0.06);
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.bankqi-message-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  align-items: flex-start;
+}
+
+.bankqi-message-row.user {
+  justify-content: flex-end;
+}
+
+.bankqi-message-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.bankqi-message {
+  max-width: 78%;
+  padding: 11px 15px;
+  border-radius: 14px;
+  line-height: 1.5;
+}
+
+.bankqi-message p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.bankqi-message-row.user .bankqi-message {
+  background: var(--bq-navy);
+  color: var(--bq-white);
+  border-bottom-right-radius: 4px;
+}
+
+.bankqi-message-row.assistant .bankqi-message {
+  background: #f1f5f9;
+  color: var(--bq-text);
+  border-bottom-left-radius: 4px;
+}
+
+.bankqi-message-error {
+  border: 1px solid #fecaca;
+  background: #fef2f2 !important;
+}
+
+.bankqi-sources {
+  border-top: 1px solid rgba(100, 116, 139, 0.18);
+  margin-top: 10px;
+  padding-top: 8px;
+  font-size: 11px;
+}
+
+.bankqi-sources strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #475569;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.bankqi-source {
+  margin-top: 3px;
+  color: var(--bq-text-muted);
+}
+
+.bankqi-typing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--bq-text-muted);
+  font-style: italic;
+}
+
+.bankqi-typing-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.bankqi-typing-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--bq-blue);
+  animation: bankqi-bounce 1.4s infinite ease-in-out both;
+}
+
+.bankqi-typing-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.bankqi-typing-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bankqi-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.bankqi-search-wrap-chat {
+  flex-shrink: 0;
+  padding-top: 12px;
+  padding-bottom: 14px;
+}
+
+/* ── Responsive (allow scroll below reference width) ── */
+
+@media (max-width: 1280px) {
+  .bankqi-app {
+    --bq-gutter: 48px;
+  }
+
+  .bankqi-hero-building {
+    right: 48px;
+    width: 280px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .bankqi-app {
+    height: auto;
+    max-height: none;
+    overflow: auto;
+  }
+
+  .bankqi-main {
+    overflow: visible;
+  }
+
+  .bankqi-queries-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .bankqi-hero-inner {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    text-align: center;
+    padding-top: 24px;
+  }
+
+  .bankqi-hero-copy {
+    max-width: none;
+    margin: 0 auto;
+  }
+
+  .bankqi-hero-subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bankqi-features {
+    justify-content: center;
+  }
+
+  .bankqi-hero-visual {
+    min-height: 200px;
+  }
+
+  .bankqi-speech-bubble {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 0 auto 12px;
+    max-width: 320px;
+  }
+
+  .bankqi-speech-bubble::after {
+    display: none;
+  }
+
+  .bankqi-mascot {
+    margin-top: 0;
+  }
+
+  .bankqi-hero-slogan {
+    display: none;
+  }
+
+  .bankqi-hero-building {
+    opacity: 0.5;
+    right: 20px;
+  }
+
+  .bankqi-queries-section {
+    overflow: visible;
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bankqi-app {
+    --bq-gutter: 20px;
+  }
+
+  .bankqi-header {
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 12px;
+  }
+
+  .bankqi-header-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .bankqi-tagline {
+    display: none;
+  }
+
+  .bankqi-hero-title,
+  .bankqi-hero-heading {
+    font-size: 26px;
+  }
+
+  .bankqi-queries-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bankqi-footer {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bankqi-nav {
+    gap: 18px;
+  }
+
+  .bankqi-suggestion-pill {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* ── Short viewports: tighten to avoid overflow ── */
+
+@media (max-height: 820px) {
+  .bankqi-hero-inner {
+    min-height: 210px;
+    padding-top: 20px;
+  }
+
+  .bankqi-hero-title,
+  .bankqi-hero-heading {
+    font-size: 28px;
+  }
+
+  .bankqi-mascot {
+    width: 160px;
+    margin-top: 44px;
+  }
+
+  .bankqi-query-card {
+    padding: 16px 10px 14px;
+  }
+
+  .bankqi-query-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-height: 720px) {
+  .bankqi-app {
+    height: auto;
+    max-height: none;
+    overflow: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bankqi-speech-bubble,
+  .bankqi-speech-text,
+  .bankqi-mascot {
+    animation: none;
+  }
+}
