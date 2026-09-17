@@ -76,6 +76,10 @@ STANDALONE SEARCH QUERY:
 // Generate grounded banking answer
 // --------------------------------------------------
 
+// --------------------------------------------------
+// Generate grounded banking answer
+// --------------------------------------------------
+
 async function generateAnswer(question, context) {
   const prompt = `
 You are BankIQ, a banking document assistant.
@@ -90,49 +94,97 @@ Rules:
 - For multi-part questions, answer each part separately.
 - If only some parts are supported, answer those and state which information is unavailable.
 - Answer only what the user asked.
-- Keep responses concise, clear, professional, and to the point. Use plain text only—no Markdown formatting.
+- Keep responses concise, clear, professional, and to the point.
+- Use plain text only—no Markdown formatting.
 
 Question:
+
 ${question}
 
 Context:
+
 ${context}
 
 ANSWER:
 `;
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.6-flash',
+  const maxRetries = 3;
 
-    contents: prompt,
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.6-flash',
+        contents: prompt,
+        config: {
+          maxOutputTokens: 400,
+          thinkingConfig: {
+            thinkingLevel: 'minimal',
+          },
+        },
+      });
 
-    config: {
-      maxOutputTokens: 200,
+      // ---------------------------------------------
+      // Token usage
+      // ---------------------------------------------
 
-      thinkingConfig: {
-        thinkingLevel: 'low',
-      },
-    },
-  });
+      if (response.usageMetadata) {
+        console.log('\nToken usage:');
 
-  if (response.usageMetadata) {
-    console.log('\nToken usage:');
+        console.log('Prompt tokens:', response.usageMetadata.promptTokenCount);
 
-    console.log('Prompt tokens:', response.usageMetadata.promptTokenCount);
+        console.log(
+          'Output tokens:',
+          response.usageMetadata.candidatesTokenCount,
+        );
 
-    console.log('Output tokens:', response.usageMetadata.candidatesTokenCount);
+        console.log(
+          'Thinking tokens:',
+          response.usageMetadata.thoughtsTokenCount || 0,
+        );
 
-    console.log(
-      'Thinking tokens:',
-      response.usageMetadata.thoughtsTokenCount || 0,
-    );
+        console.log('Total tokens:', response.usageMetadata.totalTokenCount);
+      }
 
-    console.log('Total tokens:', response.usageMetadata.totalTokenCount);
+      // ---------------------------------------------
+      // Return answer
+      // ---------------------------------------------
+
+      return (
+        response.text?.trim() ||
+        "I couldn't find this information in the available banking documents."
+      );
+    } catch (error) {
+      const status = error?.status;
+
+      console.error(
+        `Gemini error on attempt ${attempt + 1}/${maxRetries}:`,
+        error,
+      );
+
+      // ---------------------------------------------
+      // Retry temporary Gemini errors
+      // ---------------------------------------------
+
+      const retryableErrors = [429, 500, 503, 504];
+
+      if (retryableErrors.includes(status) && attempt < maxRetries - 1) {
+        const delay = 1000 * Math.pow(2, attempt);
+
+        console.log(`Retrying Gemini request in ${delay}ms...`);
+
+        await new Promise((resolve) => setTimeout(resolve, delay));
+
+        continue;
+      }
+
+      // ---------------------------------------------
+      // Final failure
+      // ---------------------------------------------
+
+      throw error;
+    }
   }
-
-  return response.text.trim();
 }
-
 module.exports = {
   generateSearchQuery,
   generateAnswer,
