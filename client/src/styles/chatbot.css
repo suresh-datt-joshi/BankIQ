@@ -16,12 +16,11 @@
   --bq-gutter: 80px;
   --bq-search: 820px;
 
-  height: 100vh;
-  height: 100dvh;
-  max-height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
   background: var(--bq-white);
   color: var(--bq-text);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -29,17 +28,15 @@
 
 .bankqi-main {
   flex: 1;
-  min-height: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 /* ── Header ── */
 
 .bankqi-header {
   flex-shrink: 0;
-  height: 72px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -164,8 +161,8 @@
   right: calc(var(--bq-gutter) + 80px);
   top: 50%;
   transform: translateY(-58%);
-  width: 340px;
-  height: 270px;
+  width: 300px;
+  height: 240px;
   background: url('/bank-building.svg') center / contain no-repeat;
   pointer-events: none;
   z-index: 0;
@@ -176,12 +173,12 @@
   z-index: 1;
   max-width: var(--bq-content);
   margin: 0 auto;
-  padding: 28px var(--bq-gutter) 0;
+  padding: 20px var(--bq-gutter) 0;
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: 24px;
   align-items: center;
-  min-height: 248px;
+  min-height: auto;
 }
 
 .bankqi-hero-copy {
@@ -190,7 +187,7 @@
 
 .bankqi-hero-title {
   margin: 0;
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 700;
   line-height: 1.15;
   color: var(--bq-navy);
@@ -202,8 +199,8 @@
 }
 
 .bankqi-hero-heading {
-  margin: 4px 0 0;
-  font-size: 34px;
+  margin: 3px 0 0;
+  font-size: 30px;
   font-weight: 700;
   line-height: 1.15;
   color: var(--bq-navy);
@@ -211,20 +208,20 @@
 }
 
 .bankqi-hero-subtitle {
-  margin: 14px 0 0;
-  font-size: 14.5px;
+  margin: 10px 0 0;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--bq-text-muted);
-  max-width: 430px;
+  max-width: 440px;
 }
 
 .bankqi-features {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px 22px;
-  margin-top: 18px;
+  gap: 8px 20px;
+  margin-top: 14px;
 }
 
 .bankqi-feature {
@@ -261,7 +258,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  min-height: 220px;
+  min-height: 195px;
   padding-bottom: 4px;
 }
 
@@ -302,11 +299,11 @@
 }
 
 .bankqi-mascot {
-  width: 196px;
+  width: 165px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 22px rgba(10, 61, 122, 0.14));
-  margin-top: 52px;
+  margin-top: 38px;
   z-index: 1;
   animation: bankqi-mascot-float 4s ease-in-out 0.35s infinite;
 }
@@ -389,14 +386,14 @@
   z-index: 2;
   max-width: var(--bq-search);
   margin: 0 auto;
-  padding: 18px var(--bq-gutter) 16px;
+  padding: 12px var(--bq-gutter) 10px;
 }
 
 .bankqi-search-bar {
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 54px;
+  height: 50px;
   background: var(--bq-white);
   border: 1px solid #dce8f5;
   border-radius: 999px;
@@ -441,8 +438,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border: none;
   border-radius: 50%;
   background: var(--bq-navy);
@@ -473,15 +470,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 7px;
+  margin-top: 10px;
 }
 
 .bankqi-suggestion-pill {
   border: 1px solid var(--bq-border);
   background: var(--bq-white);
   color: #334155;
-  padding: 7px 14px;
+  padding: 6px 13px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 400;
@@ -505,27 +502,26 @@
 /* ── Common Queries ── */
 
 .bankqi-queries-section {
-  flex: 1;
-  min-height: 0;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: var(--bq-content);
   width: 100%;
   margin: 0 auto;
-  padding: 10px var(--bq-gutter) 8px;
-  overflow: hidden;
+  padding: 8px var(--bq-gutter) 8px;
+  box-sizing: border-box;
 }
 
 .bankqi-queries-header {
   text-align: center;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   flex-shrink: 0;
 }
 
 .bankqi-queries-header h2 {
-  margin: 0 0 3px;
-  font-size: 20px;
+  margin: 0 0 2px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--bq-navy);
   letter-spacing: -0.01em;
@@ -533,7 +529,7 @@
 
 .bankqi-queries-header p {
   margin: 0;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 400;
   color: var(--bq-text-muted);
 }
@@ -541,7 +537,7 @@
 .bankqi-queries-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 14px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -550,7 +546,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 22px 12px 18px;
+  padding: 15px 10px 13px;
   background: var(--bq-white);
   border: 1px solid var(--bq-border-light);
   border-radius: 14px;
@@ -574,15 +570,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.bankqi-query-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .bankqi-query-card h3 {
-  margin: 0 0 6px;
-  font-size: 13.5px;
+  margin: 0 0 4px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--bq-text);
   line-height: 1.2;
@@ -593,14 +594,14 @@
   font-size: 11px;
   font-weight: 400;
   color: var(--bq-text-muted);
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 /* ── Footer ── */
 
 .bankqi-footer {
   flex-shrink: 0;
-  height: 56px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -648,7 +649,16 @@
 
 /* ── Chat mode (preserves functionality, fits viewport) ── */
 
+.bankqi-app-chat {
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
 .bankqi-app-chat .bankqi-main {
+  min-height: 0;
+  overflow: hidden;
   background: linear-gradient(180deg, #eef5fb 0%, #ffffff 100%);
 }
 
@@ -1426,40 +1436,52 @@
   }
 }
 
-/* ── Short viewports (desktop only): tighten to avoid overflow ── */
+/* ── Large viewports: give extra spaciousness on tall screens ── */
 
-@media (min-width: 1101px) and (max-height: 820px) {
+@media (min-width: 1200px) and (min-height: 900px) {
+  .bankqi-header {
+    height: 72px;
+  }
+
   .bankqi-hero-inner {
-    min-height: 210px;
-    padding-top: 20px;
+    padding-top: 28px;
   }
 
   .bankqi-hero-title,
   .bankqi-hero-heading {
-    font-size: 28px;
+    font-size: 34px;
   }
 
   .bankqi-mascot {
-    width: 160px;
-    margin-top: 44px;
+    width: 190px;
+    margin-top: 48px;
+  }
+
+  .bankqi-search-wrap {
+    padding-top: 18px;
+    padding-bottom: 16px;
+  }
+
+  .bankqi-search-bar {
+    height: 54px;
+  }
+
+  .bankqi-queries-section {
+    padding: 14px var(--bq-gutter) 12px;
   }
 
   .bankqi-query-card {
-    padding: 16px 10px 14px;
+    padding: 20px 12px 16px;
   }
 
   .bankqi-query-icon {
-    width: 42px;
-    height: 42px;
-    margin-bottom: 8px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
   }
-}
 
-@media (min-width: 1101px) and (max-height: 720px) {
-  .bankqi-app {
-    height: auto;
-    max-height: none;
-    overflow: auto;
+  .bankqi-footer {
+    height: 56px;
   }
 }
 
