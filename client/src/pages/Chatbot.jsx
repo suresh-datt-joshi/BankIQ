@@ -261,7 +261,7 @@ function Chatbot() {
           </nav>
 
           <Link to="/admin" className="bankqi-signin-btn">
-            ADMIN
+            Login
           </Link>
         </div>
       </header>
