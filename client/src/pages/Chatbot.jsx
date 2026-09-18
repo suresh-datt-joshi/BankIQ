@@ -5,7 +5,7 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const SUGGESTED_QUERIES = [
-  'How to open a savings account?',
+  'How do I open a savings or current account?',
   'What are the current interest rates?',
   'How to close my account?',
   'What documents are required for KYC?',
