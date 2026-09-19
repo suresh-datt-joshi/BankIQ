@@ -1,220 +1,179 @@
 # BankIQ
 
-BankIQ is a document-grounded banking assistant. Users can ask questions about
-indexed banking documents through a React chat interface, while authenticated
-administrators can upload, replace, and delete the documents used by the
-assistant.
+**AI-Powered Banking Knowledge Assistant**
 
-The application is split into:
+BankIQ is a Retrieval-Augmented Generation (RAG) based banking chatbot designed to answer employee/customer banking questions using only information contained in approved banking documents.
 
-- **Client:** React 19, Vite, React Router, Axios, and Firebase Authentication.
-- **Server:** Node.js, Express, Google Gemini, Qdrant, Supabase Storage, and
-  Firebase Admin.
+The system supports document ingestion, parsing, chunking, embedding generation, semantic retrieval, and grounded answer generation. It also provides an authenticated admin dashboard for managing the knowledge base.
 
-## Features
+---
 
-- Conversational banking Q&A grounded in uploaded documents.
-- Search-query rewriting for follow-up questions.
-- Retrieval of relevant document chunks from Qdrant.
-- Gemini-generated answers with document source metadata.
-- Admin-only document management.
-- Upload support for PDF, DOCX, XLSX, and CSV files.
-- Multiple-file uploads, with a maximum of 10 files per request and 20 MB per
-  file.
+## Live Application
 
-## Project structure
+- **Frontend:** https://bank-iq-rose.vercel.app
+- **Backend API:** https://bankiq-jkca.onrender.com
+- **Health Check:** https://bankiq-jkca.onrender.com/health
 
-```text
+---
+
+## Architecture
+<img width="2762" height="1920" alt="bankiq_system_architecture" src="https://github.com/user-attachments/assets/137cb1ab-33a3-4623-9bb7-fd3f1a8ea5a8" />
+
+The system follows two main workflows:
+1. **Admin Upload Flow**: Admin portal → Backend → Supabase storage → Gemini embeddings → Qdrant vector DB
+2. **User Chat Flow**: User chat → Backend → Qdrant retrieval → Gemini LLM → Answer with sources
+
+---
+
+## Key Features
+
+- **Customer Chatbot:** Natural-language banking questions with context-aware follow-up support and source references
+- **Grounded RAG:** Answers generated only from retrieved banking documents with similarity filtering
+- **Admin Dashboard:** Firebase-authenticated document upload/management (PDF, DOCX, XLSX, CSV)
+- **Security:** Firebase Authentication, custom claims, and server-side credential storage
+
+---
+
+## Technology Stack
+
+**Frontend:** React, Vite, JavaScript, Firebase Authentication  
+**Backend:** Node.js, Express.js, JavaScript  
+**AI/RAG:** Google Gemini API (Flash + gemini-embedding-001)  
+**Vector DB:** Qdrant Cloud (3072-dim, cosine similarity)  
+**Storage:** Supabase Storage, Firebase Authentication  
+**Deployment:** Vercel (frontend), Render (backend)
+
+---
+
+## Project Structure
+
+```
 BankIQ/
-├── client/                 # React/Vite frontend
-│   ├── public/              # Static assets
-│   └── src/
-│       ├── components/      # Shared React components
-│       └── pages/           # Chatbot and admin pages
-├── server/                 # Express backend
-│   ├── config/              # Firebase Admin configuration
-│   ├── middleware/          # Authentication and authorization
-│   ├── parsers/             # Uploaded document parsers
-│   ├── routes/              # Chat, upload, and document APIs
-│   ├── services/            # Gemini, embeddings, Qdrant, and Supabase
-│   └── utils/               # Shared server utilities
+├── client/          # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/          # AdminDashboard, AdminLogin
+│   │   └── firebase.js
+│   └── package.json
+├── server/          # Express backend
+│   ├── config/      # Firebase Admin
+│   ├── middleware/  # Auth middleware
+│   ├── parsers/     # Document parsing
+│   ├── routes/      # API routes
+│   ├── services/    # Embedding, LLM, Qdrant, Supabase
+│   └── utils/       # Text chunking
 └── README.md
 ```
 
-## Prerequisites
+---
 
-- Node.js 18 or newer
-- npm
-- A Firebase project with Email/Password Authentication enabled
-- A Firebase service-account JSON file
-- A Gemini API key
-- A running Qdrant instance
-- A Supabase project with a Storage bucket
+## Environment Variables
+
+### Frontend (`client/.env`)
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+### Backend (`server/.env`)
+```env
+PORT=5000
+GEMINI_API_KEY=your_gemini_api_key
+QDRANT_URL=your_qdrant_url
+QDRANT_API_KEY=your_qdrant_api_key
+QDRANT_COLLECTION=banking_documents
+SUPABASE_URL=your_supabase_url
+SUPABASE_SECRET_KEY=your_supabase_secret_key
+SUPABASE_BUCKET=banking-documents
+CLIENT_URL=http://localhost:5173
+FIREBASE_PROJECT_ID=your_firebase_project_id
+FIREBASE_CLIENT_EMAIL=your_firebase_client_email
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_KEY\n-----END PRIVATE KEY-----\n"
+```
+
+**Never commit `.env` files or API keys to GitHub.**
+
+---
 
 ## Installation
 
-Install dependencies for both applications:
+```bash
+# Clone repository
+git clone <your-github-repository-url>
+cd BankIQ
 
-```powershell
-cd server
+# Install frontend dependencies
+cd client
 npm install
 
-cd ..\client
+# Install backend dependencies
+cd ../server
 npm install
+
+# Configure environment variables
+# Create client/.env and server/.env with variables above
 ```
 
-The root `package.json` is not the application entry point; run the client and
-server commands from their respective directories.
+---
 
-## Configuration
+## Run Locally
 
-### Server environment variables
-
-Create `server/.env`:
-
-```dotenv
-PORT=5000
-GEMINI_API_KEY=your_gemini_api_key
-
-QDRANT_URL=http://localhost:6333
-QDRANT_COLLECTION=banking_documents
-
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SECRET_KEY=your_supabase_server_key
-SUPABASE_BUCKET=banking-documents
-```
-
-Keep this file private. Do not commit API keys, Supabase secret keys, or service
-account credentials.
-
-### Firebase Admin credentials
-
-Place the Firebase Admin SDK service-account file at:
-
-```text
-server/serviceAccountKey.json
-```
-
-The server loads this exact filename from `server/config/firebaseAdmin.js`.
-Download the file from **Firebase Console > Project settings > Service
-accounts > Generate new private key**. Never expose this file in the frontend
-or commit it to source control.
-
-### Firebase client configuration
-
-The frontend Firebase project configuration is in
-`client/src/firebase.js`. Update it when connecting the application to a
-different Firebase project. Enable Email/Password sign-in in Firebase
-Authentication and create the administrator account there.
-
-## Running locally
-
-Start Qdrant first. For example, with Docker:
-
-```powershell
-docker run --name bankiq-qdrant -p 6333:6333 -p 6334:6334 `
-  qdrant/qdrant
-```
-
-Start the API server in one terminal:
-
-```powershell
+```bash
+# Start backend (terminal 1)
 cd server
 node server.js
-```
+# Runs on http://localhost:5000
 
-The API will be available at `http://localhost:5000`.
-
-Start the frontend in a second terminal:
-
-```powershell
+# Start frontend (terminal 2)
 cd client
 npm run dev
+# Runs on http://localhost:5173
 ```
 
-Open the URL printed by Vite, normally `http://localhost:5173`.
+---
 
-The client currently sends API requests to `http://localhost:5000/api`.
+## Admin Setup
 
-## Admin setup
+After creating a Firebase user, assign admin role:
 
-1. Create an administrator user in Firebase Authentication.
-2. Update the email in `server/setAdmin.js` to that Firebase user's email.
-3. Run the script from the server directory:
-
-   ```powershell
-   cd server
-   node setAdmin.js
-   ```
-
-4. Open `/admin` in the frontend and sign in.
-5. Use `/admin/dashboard` to upload and manage source documents.
-
-The backend requires a valid Firebase ID token and the custom `admin: true`
-claim for document listing, upload, and deletion.
-
-## API endpoints
-
-| Method | Endpoint | Authentication | Description |
-| --- | --- | --- | --- |
-| `GET` | `/` | None | API status check |
-| `POST` | `/api/chat` | None | Answer a question using indexed documents |
-| `POST` | `/api/upload` | Firebase admin | Upload and index documents |
-| `GET` | `/api/documents` | Firebase admin | List indexed documents |
-| `DELETE` | `/api/documents/:documentId` | Firebase admin | Delete a document and its stored chunks |
-
-For uploads, send files as multipart form-data using the `documents` field.
-Supported extensions are `.pdf`, `.docx`, `.xlsx`, and `.csv`.
-
-Example chat request:
-
-```powershell
-Invoke-RestMethod `
-  -Uri http://localhost:5000/api/chat `
-  -Method Post `
-  -ContentType "application/json" `
-  -Body '{"question":"What documents are available?"}'
+```bash
+cd server
+node setAdmin.js
 ```
 
-## Available scripts
+The backend verifies `req.user.admin === true` for protected operations.
 
-### Client
+---
 
-Run these commands from `client/`:
+## API Endpoints
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the Vite development server |
-| `npm run build` | Create a production build |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint` | Run ESLint |
+- `GET /health` - Health check
+- `POST /api/chat` - Chat with RAG (requires `{ question, history }`)
+- `GET /api/documents` - List documents (requires auth)
+- `DELETE /api/documents/:documentId` - Delete document (requires auth)
+- `POST /api/upload` - Upload documents (requires auth, multipart/form-data)
 
-### Server
+---
 
-Run these commands from `server/`:
+## Deployment
 
-| Command | Description |
-| --- | --- |
-| `node server.js` | Start the Express API |
-| `node setAdmin.js` | Assign the admin custom claim to the configured Firebase user |
-| `node testQdrant.js` | Verify Qdrant connectivity and collection configuration |
-| `node testEmbedding.js` | Verify embedding generation |
+### Frontend (Vercel)
+Set `VITE_API_URL=https://bankiq-jkca.onrender.com/api` and redeploy.
 
-## Troubleshooting
+### Backend (Render)
+Set `CLIENT_URL=https://bank-iq-rose.vercel.app` and ensure server listens on `process.env.PORT`.
 
-- **Authentication errors:** Confirm Firebase Email/Password sign-in is
-  enabled, the user exists, and `node setAdmin.js` has been run for that user.
-- **Qdrant errors:** Confirm Qdrant is running on the URL in `QDRANT_URL`.
-- **Gemini errors:** Check that `GEMINI_API_KEY` is present and valid.
-- **Storage errors:** Check the Supabase URL, server key, bucket name, and
-  bucket permissions.
-- **Frontend API errors:** Confirm the server is running on port 5000, or
-  update the API URL constants in the client pages.
+---
 
-## Security notes
+## Security Notes
 
-- Treat `server/.env` and `server/serviceAccountKey.json` as secrets.
-- Use a server-side Supabase key only in the backend.
-- Do not use production credentials in local development.
-- Restrict Firebase administrator access to trusted users.
-- Configure CORS and HTTPS appropriately before deploying publicly.
+- Keep all API keys and credentials server-side
+- Use Firebase ID tokens for protected API calls
+- Restrict CORS to frontend origin in production
+- Validate file types and sizes on upload
+- Never commit `.env` files or credentials
+
+---
+
+## License
+
+This project is intended as a software project / assessment application.
