@@ -17,7 +17,8 @@ The system supports document ingestion, parsing, chunking, embedding generation,
 ---
 
 ## Architecture
-<img width="2762" height="1920" alt="bankiq_system_architecture" src="https://github.com/user-attachments/assets/137cb1ab-33a3-4623-9bb7-fd3f1a8ea5a8" />
+<img width="1536" height="1024" alt="BankIQ-Architecture_diag" src="https://github.com/user-attachments/assets/5ce3f8b6-a53c-4180-991a-9f66df93a132" />
+
 
 The system follows two main workflows:
 1. **Admin Upload Flow**: Admin portal → Backend → Supabase storage → Gemini embeddings → Qdrant vector DB
