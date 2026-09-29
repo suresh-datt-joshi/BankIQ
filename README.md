@@ -4,6 +4,7 @@
 
 BankIQ is a Retrieval-Augmented Generation (RAG) based banking chatbot designed to answer employee/customer banking questions using only information contained in approved banking documents.
 
+<<<<<<< HEAD
 The system supports document ingestion, parsing, chunking, embedding generation, semantic retrieval, and grounded answer generation. It also provides an authenticated admin dashboard for managing the knowledge base.
 
 ---
@@ -19,6 +20,21 @@ The system supports document ingestion, parsing, chunking, embedding generation,
 ## Architecture
 <img width="1536" height="1024" alt="BankIQ-Architecture_diag" src="https://github.com/user-attachments/assets/5ce3f8b6-a53c-4180-991a-9f66df93a132" />
 
+=======
+---
+
+## Live Application
+
+- **Frontend:** https://bank-iq-rose.vercel.app
+- **Backend API:** https://bankiq-jkca.onrender.com
+- **Health Check:** https://bankiq-jkca.onrender.com/health
+
+---
+
+## Architecture
+
+![Architecture Diagram](images/architecture.png)
+>>>>>>> d10b9a4 (model fallback added)
 
 The system follows two main workflows:
 1. **Admin Upload Flow**: Admin portal → Backend → Supabase storage → Gemini embeddings → Qdrant vector DB

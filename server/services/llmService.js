@@ -106,85 +106,128 @@ Context:
 ${context}
 
 ANSWER:
+
 `;
 
+  const models = [
+    'gemini-3.6-flash',
+    'gemini-3.5-flash-lite',
+  ];
+
   const maxRetries = 3;
+  const retryableErrors = [429, 500, 503, 504];
 
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.6-flash',
-        contents: prompt,
-        config: {
-          maxOutputTokens: 400,
-          thinkingConfig: {
-            thinkingLevel: 'minimal',
+  for (const model of models) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        console.log(
+          `Trying Gemini model ${model}, attempt ${attempt + 1}/${maxRetries}`
+        );
+
+        const response = await ai.models.generateContent({
+          model,
+          contents: prompt,
+          config: {
+            maxOutputTokens: 400,
+            thinkingConfig: {
+              thinkingLevel: 'minimal',
+            },
           },
-        },
-      });
+        });
 
-      // ---------------------------------------------
-      // Token usage
-      // ---------------------------------------------
+        // ---------------------------------------------
+        // Token usage
+        // ---------------------------------------------
+        if (response.usageMetadata) {
+          console.log('\nToken usage:');
+          console.log(
+            'Model:',
+            model
+          );
+          console.log(
+            'Prompt tokens:',
+            response.usageMetadata.promptTokenCount
+          );
+          console.log(
+            'Output tokens:',
+            response.usageMetadata.candidatesTokenCount
+          );
+          console.log(
+            'Thinking tokens:',
+            response.usageMetadata.thoughtsTokenCount || 0
+          );
+          console.log(
+            'Total tokens:',
+            response.usageMetadata.totalTokenCount
+          );
+        }
 
-      if (response.usageMetadata) {
-        console.log('\nToken usage:');
-
-        console.log('Prompt tokens:', response.usageMetadata.promptTokenCount);
-
-        console.log(
-          'Output tokens:',
-          response.usageMetadata.candidatesTokenCount,
+        // ---------------------------------------------
+        // Return answer
+        // ---------------------------------------------
+        return (
+          response.text?.trim() ||
+          "I couldn't find this information in the available banking documents."
         );
 
-        console.log(
-          'Thinking tokens:',
-          response.usageMetadata.thoughtsTokenCount || 0,
+      } catch (error) {
+        const status = error?.status;
+
+        console.error(
+          `Gemini error (${model}) on attempt ${attempt + 1}/${maxRetries}:`,
+          error
         );
 
-        console.log('Total tokens:', response.usageMetadata.totalTokenCount);
+        // ---------------------------------------------
+        // Retry temporary Gemini errors
+        // ---------------------------------------------
+        if (
+          retryableErrors.includes(status) &&
+          attempt < maxRetries - 1
+        ) {
+          const baseDelay = 1000 * Math.pow(2, attempt);
+          const jitter = Math.random() * 500;
+          const delay = baseDelay + jitter;
+
+          console.log(
+            `Retrying ${model} in ${Math.round(delay)}ms...`
+          );
+
+          await new Promise((resolve) =>
+            setTimeout(resolve, delay)
+          );
+
+          continue;
+        }
+
+        // ---------------------------------------------
+        // If current model completely fails,
+        // move to the fallback model
+        // ---------------------------------------------
+        if (!retryableErrors.includes(status)) {
+          throw error;
+        }
+
+        console.log(
+          `${model} failed after ${maxRetries} attempts.`
+        );
+        console.log(
+          `Switching to fallback model...`
+        );
+
+        break;
       }
-
-      // ---------------------------------------------
-      // Return answer
-      // ---------------------------------------------
-
-      return (
-        response.text?.trim() ||
-        "I couldn't find this information in the available banking documents."
-      );
-    } catch (error) {
-      const status = error?.status;
-
-      console.error(
-        `Gemini error on attempt ${attempt + 1}/${maxRetries}:`,
-        error,
-      );
-
-      // ---------------------------------------------
-      // Retry temporary Gemini errors
-      // ---------------------------------------------
-
-      const retryableErrors = [429, 500, 503, 504];
-
-      if (retryableErrors.includes(status) && attempt < maxRetries - 1) {
-        const delay = 1000 * Math.pow(2, attempt);
-
-        console.log(`Retrying Gemini request in ${delay}ms...`);
-
-        await new Promise((resolve) => setTimeout(resolve, delay));
-
-        continue;
-      }
-
-      // ---------------------------------------------
-      // Final failure
-      // ---------------------------------------------
-
-      throw error;
     }
   }
+
+  // ---------------------------------------------
+  // All models failed
+  // ---------------------------------------------
+  throw new Error(
+    'Gemini models are temporarily unavailable. Please try again later.'
+  );
 }
+
 module.exports = {
   generateSearchQuery,
   generateAnswer,
